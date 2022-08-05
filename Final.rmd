@@ -135,6 +135,33 @@ colPerc(table1)
 In this numerical result it shows us how specific percentages of women can be that got covid-19 after taking the placebo and taking the vaccine. Among the women, 41% got covid-19 after taking the vaccine, while the approximately 59% of women that were given the placebo contracted covid-19. This data shows that the vaccine seems to be working significantly better than the placebo.
 
 
+### Inferential Results
+
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+FemaleFisher <- fisher.test(table1)
+FemaleFisher
+```
+
+These are the results for the output of the Fisher’s Exact test. The p-value displayed above is extremely small at 9e-04. This is an awfully small number. seeing this number means that these results are not likely to occur by chance and the null hypothesis predicted that the deaths related to covid-19 are independent of sex and since it is clear that sex does play a role in the death rate of individuals, the alternative hypothesis, that there is a correlation between covid-19 deaths and sex, is the favorable option and the odd ratio above illustrates a ratio of 1.4 and the women who received the vaccine were two times more likely to get covid-19 than those who received the placebo.
+
+
+### Effectiveness Confidence Interval
+
+```{r}
+effect <- FemaleFisher$p.value/(FemaleFisher$p.value +1)
+FemaleEffectiveness = FemaleFisher$estimate/(FemaleFisher$estimate +1)*100
+print(FemaleEffectiveness)
+
+low=(FemaleFisher$conf.int[1]/(FemaleFisher$conf.int[1] +1))*100
+hi=(FemaleFisher$conf.int[2]/(FemaleFisher$conf.int[2] +1))*100
+options(digits=2)
+```
+
+This is the effectiveness of the covid-19 vaccine for females and if the effectiveness is above 50% that means that the vaccine is effective, so based on the interval seen above, we can conclude that the vaccine is effective in protecting men from getting covid-19 and the odds ratio is 59. The confidence interval more the male sample is 53.50 to 64/64.01.
+
+
 ## LGBTQ
 
 
