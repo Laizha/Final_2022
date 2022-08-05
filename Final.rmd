@@ -68,6 +68,31 @@ colPerc(table1)
 
 The numerical results show specific percentages of men that got covid-19 after taking the placebo and taking the vaccine. Among the guys, 32.22% got covid-19 after taking the vaccine, while the approximately 67.78% of guys that were given the placebo contracted covid-19. This data shows that the vaccine seems to be working significantly better than the placebo. 
 
+### Inferential Results
+
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+MaleFisher <- fisher.test(table1)
+MaleFisher
+```
+
+The results are the output of the Fisher’s Exact test. The p-value displayed above is extremely small at 2.645e-11. This is an awfully small number. seeing this number means that these results are not likely to occur by chance. The null hypothesis predicted that the deaths related to covid-19 are independent of sex. Since it is clear that sex does play a role in the death rate of individuals, the alternative hypothesis, that there is a correlation between covid-19 deaths and sex, is the favorable option. The odd ratio above illustrates a ratio of 2.09. The men who received that vaccine were two times more likely to get covid-19 than those who received the placebo.
+
+
+### Effectiveness Confidence Interval
+
+```{r}
+effect <- MaleFisher$p.value/(MaleFisher$p.value +1)
+MaleEffectiveness = MaleFisher$estimate/(MaleFisher$estimate +1)*100
+print(MaleEffectiveness)
+
+low=(MaleFisher$conf.int[1]/(MaleFisher$conf.int[1] +1))*100
+hi=(MaleFisher$conf.int[2]/(MaleFisher$conf.int[2] +1))*100
+options(digits=2)
+```
+
+That above is the effectiveness of the covid-19 vaccine for males. If the effectiveness is above 50% that means that the vaccine is effective. Based on the interval seen above, we can conclude that the vaccine is effective in protecting men from getting covid-19. The odds ratio is 68. The confidence interval more the male sample is 62.51 to 72.51.
 
 
 
