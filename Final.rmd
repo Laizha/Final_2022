@@ -201,6 +201,31 @@ colPerc(table1)
 This numerical result shows us specific percentages of LGBTQ people that got covid-19 after taking the placebo and taking the vaccine. Among the LGBTQ people, 87% got covid-19 after taking the vaccine, while only 13% of LGBTQ people that were given the placebo contracted covid-19. This data shows that the vaccine seems to be working significantly worse than the placebo.
 
  
+### Inferential Results
+
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+LGBTQFisher <- fisher.test(table1)
+LGBTQFisher
+```
+
+These results shows how the output of the Fisher’s Exact test and the p-value displayed above is extremely small at 2e-09, this is an awfully small number. seeing this number means that these results are not likely to occur by chance. The null hypothesis predicted that the deaths related to covid-19 are independent of sexual orientation and since it is clear that sexual orientation does play a role in the death rate of individuals, the alternative hypothesis, that there is a correlation between covid-19 deaths and sexual orientation, is the favorable option. The odd ratio above illustrates a ratio of 0.15.
+
+### Efectiveness Confidence Interval
+
+```{r}
+effect <- LGBTQFisher$p.value/(LGBTQFisher$p.value +1)
+LGBTQEffectiveness = LGBTQFisher$estimate/(LGBTQFisher$estimate +1)*100
+print(LGBTQEffectiveness)
+
+low=(LGBTQFisher$conf.int[1]/(LGBTQFisher$conf.int[1] +1))*100
+hi=(LGBTQFisher$conf.int[2]/(LGBTQFisher$conf.int[2] +1))*100
+options(digits=2)
+```
+
+
+The effectiveness for the covid-19 vaccine for LGBTQ people and it shows us how the effectiveness is above 50% that means that the vaccine is effective. Based on the interval seen above, we can conclude that the vaccine is ineffective in protecting men from getting covid-19 and the odds ratio is 13. The confidence interval more the male sample is 5.65 to 23.78.
 
 
 ## Druggies
