@@ -265,5 +265,37 @@ colPerc(table1)
 
 These numerical results show specific percentages of drug users that got covid-19 after taking the placebo and taking the vaccine and other drug users, 85% got covid-19 after taking the vaccine, while only 15% of drug users that were given the placebo contracted covid-19 and this data shows that the vaccine seems to be working significantly worse than the placebo. 
 
+### Inferential Results
+
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+DruggiesFisher <- fisher.test(table1)
+DruggiesFisher
+```
+
+The results are the output of the Fisher’s Exact test and the p-value displayed above is extremely small at 3e-08. This is an awfully small number. seeing this number means that these results are not likely to occur by chance. The null hypothesis predicted that the deaths related to covid-19 are independent of whether or not a person is a drug user. Since it is clear that whether or not a person is a drug user does play a role in the death rate of individuals, the alternative hypothesis, is that there is a correlation between covid-19 deaths and whether or not a person is a drug user, is a favorable option. The odd ratio above illustrates a ratio of 0.18.
+
+### Effectiveness Confidence Interval
+
+```{r}
+effect <- DruggiesFisher$p.value/(DruggiesFisher$p.value +1)
+DruggiesEffectiveness = DruggiesFisher$estimate/(DruggiesFisher$estimate +1)*100
+print(DruggiesEffectiveness)
+
+low=(DruggiesFisher$conf.int[1]/(DruggiesFisher$conf.int[1] +1))*100
+hi=(DruggiesFisher$conf.int[2]/(DruggiesFisher$conf.int[2] +1))*100
+options(digits=2)
+```
+
+The effectiveness for the covid-19 vaccine for drug users. If the effectiveness is above 50% that means that the vaccine is effective. Based on the interval seen above, we can conclude that the vaccine is ineffective in protecting men from getting covid-19. The odds ratio is 15. The confidence interval more the male sample is 7.11 to 26.78.
+
+
+
+
+
+
+
+
 
 
